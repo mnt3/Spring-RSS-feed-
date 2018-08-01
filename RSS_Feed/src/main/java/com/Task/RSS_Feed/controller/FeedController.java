@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -25,9 +27,8 @@ public class FeedController {
 
     private ItemService itemService;
 
-    private  Feed feed= new Feed();
+    private Feed feed = new Feed();
     String message = "";
-
 
 
     @Autowired
@@ -37,21 +38,19 @@ public class FeedController {
     }
 
 
-    @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index(Model model) {
-        this.message="Please provide new XML RSS Feed information"+feedService.getError();
+        message = "Please provide new XML RSS Feed information" + feedService.getError();
         model.addAttribute("message", message);
-        model.addAttribute("feed",feed);
+        model.addAttribute("feed", feed);
 
         return "index";
     }
 
-    @RequestMapping(value = { "/feedList" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/feedList"}, method = RequestMethod.GET)
     public String viewPersonList(Model model) {
-
         model.addAttribute("feeds", feedService.getAllFeeds());
         model.addAttribute("items", itemService.getAllItems());
-
         return "feedList";
     }
 
@@ -61,34 +60,30 @@ public class FeedController {
     }
 
 
-
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String submit(@Valid @ModelAttribute("feed") final Feed feed, final BindingResult result, final ModelMap model) throws Exception {
         if (result.hasErrors()) {
-            this.message = "URL not walid. Please provide another XML RSS Feed URL";
+            message = "URL not walid. Please provide another XML RSS Feed URL";
+            return "index";
+        }
+        try {
+            feedService.addFeed(feed);
+        } catch (FeedException e) {
+            message = "URL not walid. Please provide another XML RSS Feed URL";
             model.addAttribute("message", message);
             return "index";
         }
-    try {
-        feedService.addFeed(feed);
-    }
-         catch (FeedException e){
-             this.message = "URL not walid. Please provide another XML RSS Feed URL";
-             model.addAttribute("message", message);
-     return "index";
-}
 
         model.addAttribute("items", itemService.getAllItems());
         return "redirect:/index";
     }
 
     @RequestMapping(value = "/feed", method = RequestMethod.GET)
-    public String createNewFeed(@RequestParam long id, Map<String, Object> feed, Model model)
-    {
+    public String createNewFeed(@RequestParam long id, Map<String, Object> feed, Model model) {
         List<Item> mostPopularItem = new ArrayList<>(feedService.getFeedById(id).getItems());
 
-        if(feedService.getFeedById(id).getItems().size()>5) {
-             mostPopularItem = mostPopularItem.subList(0, 5);
+        if (feedService.getFeedById(id).getItems().size() > 5) {
+            mostPopularItem = mostPopularItem.subList(0, 5);
         }
 
         model.addAttribute("feed", feedService.getFeedById(id));

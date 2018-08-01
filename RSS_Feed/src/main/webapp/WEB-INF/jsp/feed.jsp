@@ -5,10 +5,10 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>RSS feed</title>
-    <link href="webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css" />
+    <link href="webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -27,8 +27,8 @@
 </nav>
 
 <div class="container">
-    <h1>Feed  ${feed.feed_name}</h1>
-   <p>URL address:<a href="${feed.url}">${feed.url}</a></p>
+    <h1>Feed ${feed.feed_name}</h1>
+    <p>URL address:<a href="${feed.url}">${feed.url}</a></p>
     <p>Update time and date: ${feed.last_update}</p>
     <p>Article count: ${item_count}</p>
     <p>Most recent articles title and URL: </p>
@@ -38,7 +38,7 @@
             <th>Title</th>
             <th>URL</th>
         </tr>
-        <c:forEach  items="${itemTopFive}" var ="item">
+        <c:forEach items="${itemTopFive}" var="item">
             <tr>
                 <td>${item.title}</td>
                 <td><a href="${item.link}">${item.link}</a></td>

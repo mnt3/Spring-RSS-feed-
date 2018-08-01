@@ -9,5 +9,6 @@ public interface FeedService {
     void addFeed(Feed feed) throws Exception;
 
     Feed getFeedById(Long id);
+
     String getError();
 }

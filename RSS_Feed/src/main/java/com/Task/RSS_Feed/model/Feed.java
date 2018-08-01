@@ -1,14 +1,11 @@
 package com.Task.RSS_Feed.model;
 
 import org.hibernate.validator.constraints.URL;
-import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,8 +27,8 @@ public class Feed {
     @NotNull
     private String feed_name;
 
-    @OneToMany(mappedBy = "feed",cascade = CascadeType.ALL)
-    private Set<Item> items= new HashSet<>();
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
+    private Set<Item> items = new HashSet<>();
 
     public Feed() {
     }
@@ -54,7 +51,7 @@ public class Feed {
     }
 
     public void setUrl(String url) {
-        this.url =  url;
+        this.url = url;
     }
 
     public String getTitle() {
