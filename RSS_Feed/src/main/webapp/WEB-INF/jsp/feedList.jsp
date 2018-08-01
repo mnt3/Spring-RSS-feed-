@@ -7,7 +7,7 @@
     <meta charset="UTF-8"/>
     <title>Feed List</title>
     <link href="webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://bootswatch.com/4/spacelab/bootstrap.min.css"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -26,17 +26,18 @@
 </nav>
 
 <div class="container">
+    <div>
     <h1>XML RSS feed</h1>
     <h2><i>Please find the list of all available feeds</i></h2>
+    </div>
     <div>
         <c:forEach items="${feeds}" var="feed">
-            <div>
 
-                <div class="panel-body">
-                    <a href="feed?id=${feed.id}"><p>${feed.url}</p></a><br/>
+                <p class="panel-body">
+                    <a href="feed?id=${feed.id}">${feed.url}</a><br/>
 
-                </div>
-            </div>
+                </p>
+
         </c:forEach>
     </div>
 </div>

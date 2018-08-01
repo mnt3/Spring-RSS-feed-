@@ -7,7 +7,7 @@
     <meta charset="UTF-8"/>
     <title>Add RSS feed, main page</title>
     <link href="webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://bootswatch.com/4/spacelab/bootstrap.min.css"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -25,7 +25,7 @@
     </div>
 </nav>
 
-<div class="container">
+<div class="container" >
 
     <h1>Add XML RSS Feed</h1>
     <h2><i>${message}</i></h2>

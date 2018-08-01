@@ -54,11 +54,6 @@ public class FeedController {
         return "feedList";
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    List<Feed> getAllFeeds() {
-        return (List<Feed>) feedService.getAllFeeds();
-    }
-
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String submit(@Valid @ModelAttribute("feed") final Feed feed, final BindingResult result, final ModelMap model) throws Exception {
@@ -81,11 +76,9 @@ public class FeedController {
     @RequestMapping(value = "/feed", method = RequestMethod.GET)
     public String createNewFeed(@RequestParam long id, Map<String, Object> feed, Model model) {
         List<Item> mostPopularItem = new ArrayList<>(feedService.getFeedById(id).getItems());
-
         if (feedService.getFeedById(id).getItems().size() > 5) {
             mostPopularItem = mostPopularItem.subList(0, 5);
         }
-
         model.addAttribute("feed", feedService.getFeedById(id));
         model.addAttribute("item", feedService.getFeedById(id).getItems());
         model.addAttribute("item_count", feedService.getFeedById(id).getItems().size());
