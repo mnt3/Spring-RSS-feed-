@@ -48,7 +48,7 @@
             <form:label path="feed_name">XML RSS Feed name: </form:label>
         </div>
         <div >
-            <form:input path="feed_name" minlength="4" maxlength="255"/>
+            <form:input path="feed_name" placeholder="Feed name 4-20 length"  minlength="4" maxlength="20"/>
         </div>
         <br/>
         <div >

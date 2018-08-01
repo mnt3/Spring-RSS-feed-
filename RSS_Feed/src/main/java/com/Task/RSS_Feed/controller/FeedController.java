@@ -4,6 +4,7 @@ import com.Task.RSS_Feed.model.Feed;
 import com.Task.RSS_Feed.model.Item;
 import com.Task.RSS_Feed.service.FeedService;
 import com.Task.RSS_Feed.service.ItemService;
+import com.sun.syndication.io.FeedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +35,10 @@ public class FeedController {
         this.feedService = feedService;
         this.itemService = itemService;
     }
-
+    @RequestMapping(value = { "/error" },method = RequestMethod.GET)
+    public String error(){
+        return "error";
+    }
 
 
     @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
@@ -65,11 +69,15 @@ public class FeedController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String submit(@Valid @ModelAttribute("feed") final Feed feed, final BindingResult result, final ModelMap model) throws Exception {
         if (result.hasErrors()) {
-            return "index";
+            return "error";
         }
-
+    try {
         feedService.addFeed(feed);
+    }
 
+catch (Exception e){
+     return "error";
+}
 
         model.addAttribute("items", itemService.getAllItems());
         return "redirect:/index";

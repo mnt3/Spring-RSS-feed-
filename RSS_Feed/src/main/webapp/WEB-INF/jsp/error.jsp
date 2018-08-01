@@ -1,11 +1,13 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Mantas
+  Date: 8/1/2018
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE HTML>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <title>Feed List</title>
+    <title>Error </title>
     <link href="webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css" />
 </head>
@@ -24,25 +26,10 @@
         </ul>
     </div>
 </nav>
-
 <div class="container">
-<h1>XML RSS feed</h1>
-    <h2><i>Please find the list of all available feeds</i></h2>
+<h1>Sorry, but you got an error, try to check your url</h1>
 
-
-
-<div>
-    <c:forEach items="${feeds}" var="feed">
-        <div >
-
-            <div class="panel-body">
-                <a href="feed?id=${feed.id}"><p>${feed.url}</p></a><br/>
-
-            </div>
-        </div>
-    </c:forEach>
-</div>
+<button type="button" class="btn btn-primary btn-lg">Go to main page</button>
 </div>
 </body>
-
 </html>
