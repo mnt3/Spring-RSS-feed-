@@ -36,6 +36,7 @@ public class FeedServiceImpl implements FeedService {
 
     private FeedRepository feedRepository;
     private ItemService itemService;
+    private String error="";
 
     @Autowired
     public FeedServiceImpl(FeedRepository feedRepository) {
@@ -92,19 +93,19 @@ public class FeedServiceImpl implements FeedService {
                 feed.getItems().add(newItem);
 
             }
-
+            feedRepository.save(feed);
         } catch (FeedException e) {
-            System.out.println("klaida1"+feed.getUrl());
+            error="This URL have feed validation error";
             e.printStackTrace();
         } catch (MalformedURLException e) {
-            System.out.println("klaida2"+feed.getUrl());
+            error="that a malformed URL has occurred";
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("klaida3"+feed.getUrl());
+            error="Error";
             e.printStackTrace();
         }
 
-        feedRepository.save(feed);
+
 
     }
 
@@ -113,4 +114,9 @@ public class FeedServiceImpl implements FeedService {
     public Feed getFeedById(Long id) {
         return feedRepository.getOne(id);
     }
+
+    public String getError() {
+        return error;
+    }
+
 }

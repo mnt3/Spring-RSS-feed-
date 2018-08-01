@@ -25,8 +25,8 @@ public class FeedController {
 
     private ItemService itemService;
 
-    private  Feed feed2= new Feed();
-    private  Feed feed1= new Feed("www.15min.lt","15min");
+    private  Feed feed= new Feed();
+    String message = "Please provide new XML RSS Feed information";
 
 
 
@@ -35,18 +35,13 @@ public class FeedController {
         this.feedService = feedService;
         this.itemService = itemService;
     }
-    @RequestMapping(value = { "/error" },method = RequestMethod.GET)
-    public String error(){
-        return "error";
-    }
 
 
     @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
     public String index(Model model) {
-        String message = "Please provide new XML RSS Feed information";
+        this.message="Please provide new XML RSS Feed information"+feedService.getError();
         model.addAttribute("message", message);
-        model.addAttribute("feed",feed2);
-
+        model.addAttribute("feed",feed);
         return "index";
     }
 
@@ -69,14 +64,17 @@ public class FeedController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String submit(@Valid @ModelAttribute("feed") final Feed feed, final BindingResult result, final ModelMap model) throws Exception {
         if (result.hasErrors()) {
-            return "error";
+            this.message = "URL not walid. Please provide another XML RSS Feed URL";
+            model.addAttribute("message", message);
+            return "index";
         }
     try {
         feedService.addFeed(feed);
     }
-
-catch (Exception e){
-     return "error";
+         catch (FeedException e){
+             this.message = "URL not walid. Please provide another XML RSS Feed URL";
+             model.addAttribute("message", message);
+     return "index";
 }
 
         model.addAttribute("items", itemService.getAllItems());
