@@ -30,11 +30,11 @@
     <h1>XML RSS feed</h1>
     <h2><i>Please find the list of all available feeds</i></h2>
     </div>
-    <div>
+    <div class="jumbotron" style="color: lightsteelblue">
         <c:forEach items="${feeds}" var="feed">
 
                 <p class="panel-body">
-                    <a href="feed?id=${feed.id}">${feed.url}</a><br/>
+                    <a href="feed?id=${feed.id}">${feed.feed_name}</a><br/>
 
                 </p>
 

@@ -6,6 +6,9 @@ import com.Task.RSS_Feed.service.FeedService;
 import com.Task.RSS_Feed.service.ItemService;
 import com.sun.syndication.io.FeedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +80,8 @@ public class FeedController {
     @RequestMapping(value = "/feed", method = RequestMethod.GET)
     public String createNewFeed(@RequestParam long id, Map<String, Object> feed, Model model) {
         List<Item> mostPopularItem = new ArrayList<>(feedService.getFeedById(id).getItems());
+        Collections.sort(mostPopularItem, (Item a1, Item a2) -> a1.getPublished().compareTo(a2.getPublished()));
+        Collections.reverse(mostPopularItem);
         if (feedService.getFeedById(id).getItems().size() > 5) {
             mostPopularItem = mostPopularItem.subList(0, 5);
         }
