@@ -42,7 +42,7 @@ public class FeedController {
         this.message="Please provide new XML RSS Feed information"+feedService.getError();
         model.addAttribute("message", message);
         model.addAttribute("feed",feed);
-        this.message="Please provide new XML RSS Feed information";
+
         return "index";
     }
 

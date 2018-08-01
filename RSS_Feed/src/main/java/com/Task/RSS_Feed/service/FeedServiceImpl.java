@@ -94,8 +94,9 @@ public class FeedServiceImpl implements FeedService {
 
             }
             feedRepository.save(feed);
+            this.error="";
         } catch (FeedException e) {
-            error="This URL have feed validation error";
+            error="<br>This URL have feed validation error";
             e.printStackTrace();
         } catch (MalformedURLException e) {
             error="that a malformed URL has occurred";
