@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +37,7 @@ public class FeedServiceImpl implements FeedService {
 
 
     @Override
-    public void addFeed(Feed feed) {
+    public void addFeed(final Feed feed) throws FeedException, IOException {
 
         feedRepository.save(readRssFeed(feed));
 
@@ -56,28 +55,16 @@ public class FeedServiceImpl implements FeedService {
         return error;
     }
 
-    private Feed readRssFeed(Feed feed) {
-
-        try {
-            String s = feed.getUrl();
-            //read URL feed with  XMLreader, Rome framework, popular and easy to use
-            XmlReader reader = new XmlReader(new URL(s));
-            SyndFeed feed2 = new SyndFeedInput().build(reader);
-            feed.setLast_update(feed2.getPublishedDate());
-            feed.setTitle(feed2.getTitle());
-            // for get all articles from feed
-            feed = addItems(feed, feed2);
-            error = "";
-        } catch (FeedException e) {
-            error = "<br>This URL have feed validation error";
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            error = "<br>that a malformed URL has occurred";
-            e.printStackTrace();
-        } catch (IOException e) {
-            error = "<br>Error";
-            e.printStackTrace();
-        }
+    private Feed readRssFeed(Feed feed) throws FeedException, IOException {
+        final String s = feed.getUrl();
+        //read URL feed with  XMLreader, Rome framework, popular and easy to use
+        final XmlReader reader = new XmlReader(new URL(s));
+        final SyndFeed feed2 = new SyndFeedInput().build(reader);
+        feed.setLast_update(feed2.getPublishedDate());
+        feed.setTitle(feed2.getTitle());
+        // for get all articles from feed
+        feed = addItems(feed, feed2);
+        error = "";
         return feed;
     }
 
