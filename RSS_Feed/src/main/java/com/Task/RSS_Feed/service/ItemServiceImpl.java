@@ -16,15 +16,17 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     public ItemServiceImpl(ItemRepository itemRepository) {
+
         this.itemRepository = itemRepository;
     }
 
     @Override
     public List<Item> getAllItems() {
+
         return itemRepository.findAll();
     }
 
-    @Transactional
+
     @Override
     public void addItem(Item item) {
 

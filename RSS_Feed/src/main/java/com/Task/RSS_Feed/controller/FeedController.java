@@ -37,6 +37,7 @@ public class FeedController {
 
     @Autowired
     public FeedController(FeedService feedService, ItemService itemService) {
+
         this.feedService = feedService;
         this.itemService = itemService;
     }
@@ -44,6 +45,7 @@ public class FeedController {
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index(Model model) {
+
         message = "Please provide new XML RSS Feed information" + feedService.getError();
         model.addAttribute("message", message);
         model.addAttribute("feed", feed);
@@ -53,6 +55,7 @@ public class FeedController {
 
     @RequestMapping(value = {"/feedList"}, method = RequestMethod.GET)
     public String viewPersonList(Model model) {
+
         model.addAttribute("feeds", feedService.getAllFeeds());
         model.addAttribute("items", itemService.getAllItems());
         return "feedList";
@@ -61,6 +64,7 @@ public class FeedController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String submit(@Valid @ModelAttribute("feed") final Feed feed, final BindingResult result, final ModelMap model) throws Exception {
+
         if (result.hasErrors()) {
             message = "URL not walid. Please provide another XML RSS Feed URL";
             return "index";
@@ -79,8 +83,12 @@ public class FeedController {
 
     @RequestMapping(value = "/feed", method = RequestMethod.GET)
     public String createNewFeed(@RequestParam long id, Map<String, Object> feed, Model model) {
+
         List<Item> mostPopularItem = new ArrayList<>(feedService.getFeedById(id).getItems());
-        Collections.sort(mostPopularItem, (Item a1, Item a2) -> a1.getPublished().compareTo(a2.getPublished()));
+        // for future can try to catch null exeption for sorting
+        // if publicated date is null ir rss, you get random articles
+        if (mostPopularItem.get(1).getPublished()!= null){
+        Collections.sort(mostPopularItem, (Item a1, Item a2) -> a1.getPublished().compareTo(a2.getPublished()));}
         Collections.reverse(mostPopularItem);
         if (feedService.getFeedById(id).getItems().size() > 5) {
             mostPopularItem = mostPopularItem.subList(0, 5);

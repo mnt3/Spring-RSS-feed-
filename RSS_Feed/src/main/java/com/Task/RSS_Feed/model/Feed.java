@@ -22,7 +22,7 @@ public class Feed {
 
     private String title;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
     private Date last_update;
     @NotNull
     private String feed_name;

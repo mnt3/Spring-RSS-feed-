@@ -9,10 +9,7 @@ import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -28,51 +25,48 @@ public class FeedServiceImpl implements FeedService {
 
     @Autowired
     public FeedServiceImpl(FeedRepository feedRepository) {
+
         this.feedRepository = feedRepository;
     }
 
-    @Transactional
+
     @Override
     public List<Feed> getAllFeeds() {
+
         return feedRepository.findAll();
     }
 
-    @Transactional
+
     @Override
     public void addFeed(Feed feed) {
-        System.out.println("feed url: " + feed.getUrl());
+
+        feedRepository.save(readRssFeed(feed));
+
+    }
+
+
+    @Override
+    public Feed getFeedById(Long id) {
+
+        return feedRepository.getOne(id);
+    }
+
+    public String getError() {
+
+        return error;
+    }
+
+    private Feed readRssFeed(Feed feed) {
 
         try {
-
             String s = feed.getUrl();
-            // using XMLreader with Rome framework, popular and easy to use
+            //read URL feed with  XMLreader, Rome framework, popular and easy to use
             XmlReader reader = new XmlReader(new URL(s));
             SyndFeed feed2 = new SyndFeedInput().build(reader);
             feed.setLast_update(feed2.getPublishedDate());
             feed.setTitle(feed2.getTitle());
-            System.out.println("Feed Title: " + feed2.getAuthor());
-
-
             // for get all articles from feed
-            for (Iterator i = feed2.getEntries().iterator(); i.hasNext(); ) {
-                SyndEntry entry = (SyndEntry) i.next();
-                System.out.println(entry.getTitle());
-                Item newItem = new Item();
-                newItem.setFeed(feed);
-                // the library has  methods to escape in HTML, XML, Javascript, for non english (LT) symbols
-                newItem.setTitle(org.apache.commons.lang.StringEscapeUtils.escapeHtml(entry.getTitle()));
-                newItem.setPublished(entry.getPublishedDate());
-                newItem.setLink(entry.getLink());
-                // if description is to long for database, i take only 254 symbols
-                if (entry.getDescription().getValue().length() > 254) {
-                    newItem.setDescription(entry.getDescription().getValue().toString().substring(0, 254));
-                } else {
-                    newItem.setDescription(entry.getDescription().getValue());
-                }
-                feed.getItems().add(newItem);
-
-            }
-            feedRepository.save(feed);
+            feed = addItems(feed, feed2);
             error = "";
         } catch (FeedException e) {
             error = "<br>This URL have feed validation error";
@@ -84,20 +78,30 @@ public class FeedServiceImpl implements FeedService {
             error = "<br>Error";
             e.printStackTrace();
         }
-
-
+        return feed;
     }
 
-    @Transactional
-    @Override
-    public Feed getFeedById(Long id) {
-        return feedRepository.getOne(id);
+    private Feed addItems(Feed feed, SyndFeed feed2) {
+
+        for (Iterator i = feed2.getEntries().iterator(); i.hasNext(); ) {
+            SyndEntry entry = (SyndEntry) i.next();
+            Item newItem = new Item();
+            newItem.setFeed(feed);
+            // the library has  methods to escape in HTML, XML, Javascript, for non english (LT) symbols
+            newItem.setTitle(org.apache.commons.lang.StringEscapeUtils.escapeHtml(entry.getTitle()));
+            newItem.setPublished(entry.getPublishedDate());
+            newItem.setLink(entry.getLink());
+
+            // if description is to long for database, i take only 254 symbols
+            if (entry.getDescription().getValue().length() > 254) {
+                newItem.setDescription(entry.getDescription().getValue().toString().substring(0, 254)); }
+
+            else {
+                newItem.setDescription(entry.getDescription().getValue());
+            }
+            feed.getItems().add(newItem);
+        }
+        return feed;
     }
-
-    public String getError() {
-        return error;
-    }
-
-
 
 }
