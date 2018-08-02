@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -70,8 +69,8 @@ public class FeedServiceImpl implements FeedService {
 
     private Feed addItems(Feed feed, SyndFeed feed2) {
 
-        for (Iterator i = feed2.getEntries().iterator(); i.hasNext(); ) {
-            SyndEntry entry = (SyndEntry) i.next();
+        for (Object o : feed2.getEntries()) {
+            SyndEntry entry = (SyndEntry) o;
             Item newItem = new Item();
             newItem.setFeed(feed);
             // the library has  methods to escape in HTML, XML, Javascript, for non english (LT) symbols

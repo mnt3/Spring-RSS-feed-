@@ -62,7 +62,7 @@ public class FeedController {
     public String submit(@Valid @ModelAttribute("feed") final Feed feed, final BindingResult result, final ModelMap model) throws Exception {
 
         if (result.hasErrors()) {
-            message = "URL not walid. Please provide another XML RSS Feed URL";
+            message = "Error";
             return "index";
         }
         try {
@@ -76,7 +76,8 @@ public class FeedController {
             model.addAttribute("message", message);
             return "index";
         }
-        
+        message = "You add RSS Feed";
+        model.addAttribute("message", message);
         return "redirect:/index";
     }
 
