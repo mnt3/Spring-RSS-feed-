@@ -1,20 +1,20 @@
 # Spring-RSS-feed-
 RSS feed, can create feed url and wach your feed colection articles
 
-Main web page http://localhost:8080/index;
+Main web page http://localhost:8080/index;<br>
 
-DataBase is in http://localhost:8080/h2-console
-Driver Class: "org.h2.Driver"	
-JDBC URL: "jdbc:h2:mem:feed"
-User Name: "sa"
-(no password,password is eampty)
-Password: ""
+DataBase is in http://localhost:8080/h2-console<br>
+Driver Class: "org.h2.Driver"	<br>
+JDBC URL: "jdbc:h2:mem:feed"<br>
+User Name: "sa"<br>
+(no password,password is eampty)<br>
+Password: ""<br>
 <p>
-Instalation:
-Download project with git (clone address)
-or dowload zip file and extract.
-If you using Intellij IDEA can open like a project or 
-use maven, at first download, write in console: "mvn spring-boot:run".
+Instalation:<br>
+Download project with git (clone address)<br>
+or dowload zip file and extract.<br>
+If you using Intellij IDEA can open like a project or <br>
+use maven, at first download, write in console: "mvn spring-boot:run".<br>
 </p>
 <p>
 The <a href="https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/" rel="nofollow">reference documentation</a> includes detailed
