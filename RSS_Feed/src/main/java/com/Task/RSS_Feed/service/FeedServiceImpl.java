@@ -91,12 +91,10 @@ public class FeedServiceImpl implements FeedService {
             newItem.setTitle(org.apache.commons.lang.StringEscapeUtils.escapeHtml(entry.getTitle()));
             newItem.setPublished(entry.getPublishedDate());
             newItem.setLink(entry.getLink());
-
             // if description is to long for database, i take only 254 symbols
             if (entry.getDescription().getValue().length() > 254) {
-                newItem.setDescription(entry.getDescription().getValue().toString().substring(0, 254)); }
-
-            else {
+                newItem.setDescription(entry.getDescription().getValue().toString().substring(0, 254));
+            } else {
                 newItem.setDescription(entry.getDescription().getValue());
             }
             feed.getItems().add(newItem);
