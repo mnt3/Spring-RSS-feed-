@@ -3,6 +3,7 @@ RSS feed, can create feed url and wach your feed colection articles
 
 Main web page http://localhost:8080/index;<br>
 
+Used H2 Database http://www.h2database.com/html/download.html;
 DataBase is in http://localhost:8080/h2-console<br>
 Driver Class: "org.h2.Driver"	<br>
 JDBC URL: "jdbc:h2:mem:feed"<br>
@@ -14,7 +15,7 @@ Instalation:<br>
 Download project with git (clone address)<br>
 or dowload zip file and extract.<br>
 If you using Intellij IDEA can open like a project or <br>
-use maven, at first download, write in console: "mvn spring-boot:run".<br>
+use maven https://maven.apache.org/, at first download, write in console: "mvn spring-boot:run".<br>
 </p>
 <p>
 The <a href="https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/" rel="nofollow">reference documentation</a> includes detailed
